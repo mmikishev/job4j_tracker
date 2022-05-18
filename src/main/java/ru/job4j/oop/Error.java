@@ -18,9 +18,13 @@ public class Error {
         System.out.println("сообщение " + message);
     }
 
+    public Error() {
+    }
+
     public static void main(String[] args) {
         Error error = new Error(true, 3, "ошибка");
         error.printInfo();
-
+        Error error1 = new Error();
+        error1.printInfo();
     }
 }
