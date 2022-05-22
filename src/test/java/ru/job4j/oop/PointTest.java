@@ -15,7 +15,6 @@ public class PointTest {
     }
 
     @Test
-
     public void when22to22then0() {
         Point a = new Point(2, 2);
         Point b = new Point(2, 2);
@@ -25,7 +24,6 @@ public class PointTest {
     }
 
     @Test
-
     public void when11to10then1() {
         Point a = new Point(1, 1);
         Point b = new Point(1, 0);
