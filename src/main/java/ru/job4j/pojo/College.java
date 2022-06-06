@@ -7,7 +7,7 @@ public class College {
         Student student = new Student();
         student.setFio("Maksim Mikishev");
         student.setGroup(411);
-        student.getReceipt();
+        student.setReceipt(new Date());
 
         System.out.println(student.getFio() + " группа - " + student.getGroup());
     }
