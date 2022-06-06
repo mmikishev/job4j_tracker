@@ -18,6 +18,7 @@ public class Library {
         System.out.println("Replace 0 to 3.");
         books[0] = book3;
         books[3] = book;
+
         for (int index = 0; index < books.length; index++) {
             Book bo = books[index];
             System.out.println(bo.getName() + " - " + bo.getPages());
@@ -25,7 +26,7 @@ public class Library {
         System.out.println("цикл с выводом книг с именем \"Clean code\"");
         for (int index = 0; index < books.length; index++) {
             Book bo = books[index];
-            if (bo.getName() == "Clean code") {
+            if (bo.getName().equals("Clean code")) {
                 System.out.println(bo.getName() + " - " + bo.getPages());
             }
         }
