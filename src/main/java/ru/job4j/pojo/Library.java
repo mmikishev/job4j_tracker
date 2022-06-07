@@ -18,7 +18,6 @@ public class Library {
         System.out.println("Replace 0 to 3.");
         books[0] = book3;
         books[3] = book;
-
         for (int index = 0; index < books.length; index++) {
             Book bo = books[index];
             System.out.println(bo.getName() + " - " + bo.getPages());
