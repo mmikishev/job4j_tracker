@@ -9,6 +9,6 @@ public class College {
         student.setGroup(411);
         student.setReceipt(new Date());
 
-        System.out.println(student.getFio() + " группа - " + student.getGroup());
+        System.out.println(student.getFio() + " группа - " + student.getGroup() + " дата : " + student.getReceipt());
     }
 }
