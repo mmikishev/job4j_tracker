@@ -18,8 +18,8 @@ public class Tracker {
     }
 
     public Item[] findByName(String key) {
-      Item[] rsl = new Item[size];
-      int count = 0;
+        Item[] rsl = new Item[size];
+        int count = 0;
         for (int index = 0; index < size; index++) {
             Item item = items[index];
             if (key.equals(item.getName())) {
@@ -60,6 +60,16 @@ public class Tracker {
         if (rsl) {
             item.setId(id);
             items[index] = item;
+        }
+        return rsl;
+    }
+
+    public boolean delete(int id) {
+        int index = indexOf(id);
+        boolean rsl = index != -1;
+        if (rsl) {
+            items[size - 1] = null;
+            size--;
         }
         return rsl;
     }
