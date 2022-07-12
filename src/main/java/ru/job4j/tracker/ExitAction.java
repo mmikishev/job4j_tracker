@@ -1,15 +1,14 @@
-import ru.job4j.tracker.Input;
-import ru.job4j.tracker.Tracker;
-import ru.job4j.tracker.UserAction;
+package ru.job4j.tracker;
 
 public class ExitAction implements UserAction {
     @Override
     public String name() {
-        return " Exit ";
+        return "Exit Program";
     }
 
     @Override
     public boolean execute(Input input, Tracker tracker) {
+
         return false;
     }
 }
