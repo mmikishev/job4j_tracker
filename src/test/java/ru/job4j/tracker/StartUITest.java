@@ -26,7 +26,7 @@ public class StartUITest {
         Item item = tracker.add(new Item("=== Edit item ==="));
         String editedName = "New item name";
         Input in = new StubInput(
-                new String[] {"0", "Edit item", "1"}
+                new String[] {"0", "1", "New item name", "1"}
         );
         UserAction[] actions = {
                 new EditAction(),
@@ -48,6 +48,6 @@ public class StartUITest {
                 new ExitAction()
         };
         new StartUI().init(in, tracker, actions);
-        assertThat(tracker.findById(item.getId()), is(nullValue()));
+        assertNull(tracker.findById(item.getId()));
     }
 }
