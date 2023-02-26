@@ -4,101 +4,85 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class PassportValidatorTest {
+class PasswordValidatorTest {
 
     @Test
-    void whenValid() {
-        String in = "admiiiiiiiiI1n!";
-        String out = PassportValidator.validate(in);
+
+    public void whenNullException() {
+
+        String password = null;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не должен быть null");
+    }
+
+    @Test
+
+    public void whenLengthOutOfRange() {
+
+        String password = "a";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Длина пароля не в диапазоне [8, 32]");
+    }
+
+    @Test
+
+    public void whenNotContainsUpperCase() {
+
+        String password = "abcdefgh";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит символа в верхнем регистре");
+    }
+
+    @Test
+
+    public void whenNotContainsLowerCase() {
+
+        String password = "A1234567";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит символа в нижнем регистре");
+    }
+
+    @Test
+
+    public void whenNotContainsNumbers() {
+
+        String password = "aBcdefgh";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит цифры");
+    }
+
+    @Test
+
+    public void whenNotContainsSpecial() {
+
+        String password = "aBcdefg1";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль не содержит спец. символа");
+    }
+
+    @Test
+
+    public void whenContainsInvalidSubstring() {
+
+        String password = "qWerty1.";
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            PassportValidator.validate(password); });
+        assertThat(exception.getMessage()).isEqualTo("Пароль содержит недопустимую подстроку: qwerty, 12345, password, admin, user");
+    }
+
+    @Test
+
+    public void whenPasswordIsValid() {
+
+        String password = "qWerta1.";
         String expected = "Пароль валидный";
-        assertThat(out).isEqualTo(expected);
-    }
-
-    @Test
-    void whenInValidNull() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate(null);
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Пароль пуст");
-    }
-
-    @Test
-    void whenInValidEmpty() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Пароль пуст");
-    }
-
-    @Test
-    void whenInValidLength() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("fur");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Пароль несоответсвует шаблону длины: 8 - 32 символа");
-    }
-
-    @Test
-    void whenInValidLightPass() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("admin");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Пароль слишком легкий");
-    }
-
-    @Test
-    void whenInValidNotLowerCase() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("FURFURFUR1!");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Добавьте в пароль хотя бы одну строчную будку");
-    }
-
-    @Test
-    void whenInValidNotUpperCase() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("furfurfur1!");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Добавьте в пароль хотя бы одну прописную будку");
-    }
-
-    @Test
-    void whenInValidNotDigit() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("furfurfur!N");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Добавьте в пароль хотя бы одну цифру");
-    }
-
-    @Test
-    void whenInValidNotLetterOrDigit() {
-        IllegalArgumentException exception = assertThrows(
-                IllegalArgumentException.class,
-                () -> {
-                    PassportValidator.validate("furfurfurS1");
-                }
-        );
-        assertThat(exception.getMessage()).isEqualTo("Добавьте в пароль хотя бы однин спец. знак");
+        String result = PassportValidator.validate(password);
+        assertThat(result).isEqualTo(expected);
     }
 }

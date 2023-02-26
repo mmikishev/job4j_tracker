@@ -1,97 +1,52 @@
 package ru.job4j.early;
 
 public class PassportValidator {
-
     public static String validate(String password) {
-        if (password == null || password.length() == 0) {
-            throw new IllegalArgumentException("Пароль пуст");
+        boolean isUpperCase = false;
+        boolean isLowerCase = false;
+        boolean isDigit = false;
+        boolean isSpecial = false;
+        if (password == null) {
+            throw new IllegalArgumentException("Пароль не должен быть null");
         }
-        if (!checkAbusePass(password)) {
-            throw new IllegalArgumentException("Пароль слишком легкий");
-        }
-        if (password.length() < 8 || password.length() > 32) {
-            throw new IllegalArgumentException("Пароль несоответсвует шаблону длины: 8 - 32 символа");
-        }
-        if (!checkChars(password, 1)) {
-            throw new IllegalArgumentException("Добавьте в пароль хотя бы одну строчную будку");
-        }
-        if (!checkChars(password, 2)) {
-            throw new IllegalArgumentException("Добавьте в пароль хотя бы одну прописную будку");
-        }
-        if (!checkChars(password, 3)) {
-            throw new IllegalArgumentException("Добавьте в пароль хотя бы одну цифру");
-        }
-        if (!checkChars(password, 4)) {
-            throw new IllegalArgumentException("Добавьте в пароль хотя бы однин спец. знак");
-        }
-        return "Пароль валидный";
-    }
-
-    public static void main(String[] args) {
-        System.out.println(validate("admiiiiiiiiI1n"));
-    }
-
-    /*
-    private static boolean checkChars(String password, int flag) {
-        char[] chars = password.toCharArray();
-        boolean[] flags = new boolean[4];
-        for (char ch : chars) {
-            if (Character.isLowerCase(ch)) {
-                flags[0] = true;
-            }
+        for (char ch : password.toCharArray()) {
             if (Character.isUpperCase(ch)) {
-                flags[1] = true;
+                isUpperCase = true;
+            }
+            if (Character.isLowerCase(ch)) {
+                isLowerCase = true;
             }
             if (Character.isDigit(ch)) {
-                flags[2] = true;
+                isDigit = true;
             }
-            if (!Character.isLetterOrDigit(ch)) {
-                flags[3] = true;
+            if (!Character.isUpperCase(ch) && !Character.isLowerCase(ch) && !Character.isDigit(ch)) {
+                isSpecial = true;
             }
-        }
-        return flags[flag];
-    }
-     */
-
-    private static boolean checkChars(String password, int flag) {
-        char[] chars = password.toCharArray();
-        for (char ch : chars) {
-            switch (flag) {
-                case 1:
-                    if (Character.isLowerCase(ch)) {
-                        return true;
-                    }
-                    break;
-                case 2:
-                    if (Character.isUpperCase(ch)) {
-                        return true;
-                    }
-                    break;
-                case 3:
-                    if (Character.isDigit(ch)) {
-                        return true;
-                    }
-                    break;
-                case 4:
-                    if (!Character.isLetterOrDigit(ch)) {
-                        return true;
-                    }
-                    break;
-                default:
-                    throw new IllegalStateException("Несуществующий фаг");
+            if (isUpperCase && isLowerCase && isDigit && isSpecial) {
+                break;
             }
         }
-        return false;
-    }
-
-    private static boolean checkAbusePass(String password) {
-        String[] abuses = {"qwerty", "12345", "password", "admin", "user"};
-        String normPass = password.toLowerCase().trim();
-        for (String abuse : abuses) {
-            if (normPass.contains(abuse)) {
-                return false;
-            }
+        if (password.length() < 8 || password.length() > 32) {
+            throw new IllegalArgumentException("Длина пароля не в диапазоне [8, 32]");
         }
-        return true;
+        if (!isUpperCase) {
+            throw new IllegalArgumentException("Пароль не содержит символа в верхнем регистре");
+        }
+        if (!isLowerCase) {
+            throw new IllegalArgumentException("Пароль не содержит символа в нижнем регистре");
+        }
+        if (!isDigit) {
+            throw new IllegalArgumentException("Пароль не содержит цифры");
+        }
+        if (!isSpecial) {
+            throw new IllegalArgumentException("Пароль не содержит спец. символа");
+        }
+        String[] contains = {"user", "12345", "admin", "password", "qwerty"};
+                 for (String contain : contains) {
+                     if (password.toLowerCase().contains(contain)) {
+                         throw new IllegalArgumentException("Пароль содержит недопустимую подстроку: qwerty, 12345, password, admin, user");
+                     }
+                 }
+        return "Пароль валидный";
     }
 }
