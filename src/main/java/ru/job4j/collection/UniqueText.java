@@ -3,7 +3,6 @@ package ru.job4j.collection;
 import java.util.HashSet;
 
 public class UniqueText {
-    @SuppressWarnings("checkstyle:WhitespaceAround")
     public boolean isEquals(String originText, String duplicateText) {
         boolean rsl = true;
         String[] origin = originText.split(" ");
@@ -15,10 +14,9 @@ public class UniqueText {
         for (String words : text) {
             if (!check.contains(words)) {
                rsl = false;
+               break;
             }
         }
-        /* for-each origin -> new HashSet. */
-        /* for-each text -> hashSet.contains */
         return rsl;
     }
 }
