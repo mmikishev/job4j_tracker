@@ -19,6 +19,6 @@ public class FullSearchTest {
                 new Task("1", "First desc")
         );
         Set<String> expected = new HashSet<>(Arrays.asList("1", "2"));
-        assertThat(FullSearch.extractNumber(tasks)).containsAll(expected);
+        assertThat(new FullSearch().extractNumber(tasks)).containsAll(expected);
     }
 }
