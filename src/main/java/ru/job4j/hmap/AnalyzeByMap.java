@@ -31,20 +31,19 @@ public class AnalyzeByMap {
     }
 
     public static List<Label> averageScoreBySubject(List<Pupil> pupils) {
-        Map<String, Integer> map = new LinkedHashMap<>();
-        List<Label> list = new ArrayList<>();
-        int index = 0;
+        Map<String, Integer> subjects = new HashMap<>();
+
         for (Pupil pupil : pupils) {
             for (Subject subject : pupil.subjects()) {
-                map.put(subject.name(), subject.score());
+                subjects.put(subject.name(), subjects.getOrDefault(subject.name(), 0) + subject.score());
             }
-            index++;
         }
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            Label label = new Label(entry.getKey(), (double) entry.getValue() / index);
-            list.add(label);
+        List<Label> averageSubject = new ArrayList<>();
+        double amount = pupils.size();
+        for (Map.Entry<String, Integer> entry : subjects.entrySet()) {
+            averageSubject.add(new Label(entry.getKey(), entry.getValue() / amount));
         }
-        return list;
+        return averageSubject;
     }
 
     public static Label bestStudent(List<Pupil> pupils) {
@@ -62,18 +61,21 @@ public class AnalyzeByMap {
     }
 
     public static Label bestSubject(List<Pupil> pupils) {
-        Map<String, Integer> map = new LinkedHashMap<>();
-        List<Label> list = new ArrayList<>();
+        Map<String, Integer> mapSubject = new LinkedHashMap<>();
+        TreeSet<Label> bestSubjects = null;
         for (Pupil pupil : pupils) {
             for (Subject subject : pupil.subjects()) {
-                map.put(subject.name(), subject.score());
+                if (!mapSubject.containsKey(subject.name())) {
+                    mapSubject.put(subject.name(), subject.score());
+                } else {
+                    mapSubject.put(subject.name(), mapSubject.get(subject.name()) + subject.score());
+                }
+            }
+            bestSubjects = new TreeSet<>();
+            for (Map.Entry<String, Integer> entry : mapSubject.entrySet()) {
+                bestSubjects.add(new Label(entry.getKey(), entry.getValue()));
             }
         }
-        for (Map.Entry<String, Integer> entry : map.entrySet()) {
-            Label label = new Label(entry.getKey(), (double) entry.getValue());
-            list.add(label);
-        }
-        list.sort(Comparator.naturalOrder());
-        return list.get(list.size() - 1);
+        return bestSubjects.last();
     }
 }
