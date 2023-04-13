@@ -66,7 +66,7 @@ public class AnalyzeByMap {
                 mapSubject.put(subject.name(), mapSubject.getOrDefault(subject.name(), 0) + subject.score());
                }
             }
-        TreeSet<Label> bestSubjects = new TreeSet<>();
+            TreeSet<Label> bestSubjects = new TreeSet<>();
             for (Map.Entry<String, Integer> entry : mapSubject.entrySet()) {
                 bestSubjects.add(new Label(entry.getKey(), entry.getValue()));
             }
